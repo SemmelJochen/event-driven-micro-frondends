@@ -1,5 +1,5 @@
 import React from 'react'
-
+import { Grid } from "@mui/material"
 const styles = ({
     frame: {
         height: "100%",
@@ -19,14 +19,15 @@ const styles = ({
     },
 });
 
-export const PageLayout = ({appBar, content, children}) => {
+const PageLayout = ({ appBar, content, children }) => {
     return (
         <div style={styles.frame}>
             {appBar}
             {/*<ZebAppBar pmProxy={this.appBarProxy} className={classes.appbar} />*/}
-            <Grid container className={styles.container} direction="column" wrap="nowrap">
+            <Grid container style={styles.container} direction="column" wrap="nowrap">
                 {content ? content : children}
             </Grid>
         </div>
     )
 }
+export default PageLayout;

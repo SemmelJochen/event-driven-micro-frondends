@@ -1,1 +1,1 @@
-export const PageLayout = require("layout/PageLayout.js").default;
+exports.PageLayout = require("./layout/PageLayout.js").default;

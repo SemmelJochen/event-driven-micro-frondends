@@ -1,10 +1,10 @@
-import { PageLayout } from 'fw.core';
+
 import React from 'react';
-import './App.css';
+import { PageLayout } from 'fw.core';
 
 function App() {
   return (
-    <PageLayout appBar={<div>AppBar</div>}>
+    <PageLayout appBar={<div style={{ backgroundColor: "black", color: "white" }}>AppBar</div>}>
       <div>Content</div>
     </PageLayout>
   );

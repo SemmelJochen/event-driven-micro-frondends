@@ -16,7 +16,10 @@ module.exports = {
     },
 
     output: {
-        publicPath: 'auto',
+        path: path.resolve(__dirname, 'dist'),
+        filename: '[name].[hash:8].js',
+        sourceMapFilename: '[name].[hash:8].map',
+        chunkFilename: '[id].[hash:8].js'
     },
     module: {
         rules: [
@@ -34,17 +37,8 @@ module.exports = {
             },
         ],
     },
-    resolve: {
-        alias: {
-            "fw.core": path.resolve( "..", __dirname, "fw")
-            /*"fw.core.ui.pmui": path.resolve(__dirname, "src/fw/core/pmui"),
-            "fw.ui.lib": path.resolve(__dirname, "src/fw/ui/lib"),
-            "products.alm.common.ui.lib": path.resolve(__dirname, "src/products/alm/common"),
-            "products.alm.basedata.ui.lib": path.resolve(__dirname, "src/products/alm/basedata"),
-            "products.alm.nii.ui.lib": path.resolve(__dirname, "src/products/alm/nii"),
-            "components.ui.lib": path.resolve(__dirname, "src/components/ui/lib"),*/
-        },
-    },
+    
+
     plugins: [
         // To learn more about the usage of this plugin, please visit https://webpack.js.org/plugins/module-federation-plugin/
         new ModuleFederationPlugin({
@@ -57,16 +51,21 @@ module.exports = {
                 //integration: "integration@http://localhost:80/remoteEntry.js"
             },
             shared: {
-                //...deps,
+                //this will share all integration dependencies with the remote modules
+                ...deps,
+
+                // adds react as shared module
                 react: {
+                    eager: true,
                     singleton: true,
-                    //eager: true,
+                    requiredVersion: deps.react, //optional -- make sure that all react verisons are the same
                 },
-                'react-dom': {
+                "react-dom": {
+                    eager: true,
                     singleton: true,
-                    //eager: true,
-                }
-            },
+                    requiredVersion: deps["react-dom"],
+                },
+            }
         }),
         new HtmlWebpackPlugin({
             template: './public/index.html',

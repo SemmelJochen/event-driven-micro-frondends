@@ -1,17 +1,20 @@
 {
-  "name": "fw",
-  "version": "1.0.0",
-  "description": "framework-components",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "author": "",
-  "license": "ISC",
-  "dependencies": {
-    "@emotion/react": "^11.9.0",
-    "@emotion/styled": "^11.8.1",
-    "@mui/material": "^5.6.0",
-    "react": "^18.0.0"
-  }
+    "name": "fw",
+    "version": "1.0.0",
+    "description": "framework-components",
+    "main": "index.js",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "start": "react-scripts start"
+    },
+    "author": "semmeljochen",
+    "license": "ISC",
+    "dependencies": {
+        "@emotion/react": "^11.9.0",
+        "@emotion/styled": "^11.8.1",
+        "@mui/material": "^5.6.0",
+        "react": "^17.0.2",
+        "react-dom": "^17.0.2",
+        "react-scripts": "^2.1.3"
+    }
 }
