@@ -1,0 +1,1 @@
+export const PageLayout = require("layout/PageLayout.js").default;
