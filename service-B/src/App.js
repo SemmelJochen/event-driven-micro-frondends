@@ -5,8 +5,8 @@ import { PageLayout } from 'fw.core';
 function App() {
   return (
     <PageLayout appBar={<div style={{ backgroundColor: "black", color: "white" }}>AppBar</div>}>
-      <div>Service A</div>
-      <p>Goto Service B <a>/serviceb</a></p>
+      <div>Service B</div>
+      <p>Goto Service A <a>/servicea</a></p>
     </PageLayout>
   );
 }
