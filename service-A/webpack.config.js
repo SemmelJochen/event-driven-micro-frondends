@@ -14,6 +14,7 @@ module.exports = {
         },
         port: 3002,
         compress: true,
+        hot: true,
         proxy: {},
         allowedHosts: [`app.localhost`],
     },
@@ -41,18 +42,18 @@ module.exports = {
             },
         ],
     },
-    
+
 
     plugins: [
         // To learn more about the usage of this plugin, please visit https://webpack.js.org/plugins/module-federation-plugin/
         new ModuleFederationPlugin({
-            name: 'testService',
+            name: 'serviceA',
             filename: 'remoteEntry.js',
             exposes: {
-                
+
             },
             remotes: {
-                //integration: "integration@http://localhost:80/remoteEntry.js"
+                navservice: "navservice@/remoteEntry.js"
             },
             shared: {
                 //this will share all integration dependencies with the remote modules
@@ -60,12 +61,12 @@ module.exports = {
 
                 // adds react as shared module
                 react: {
-                    eager: true,
+                    //eager: true,
                     singleton: true,
                     requiredVersion: deps.react, //optional -- make sure that all react verisons are the same
                 },
                 "react-dom": {
-                    eager: true,
+                    //eager: true,
                     singleton: true,
                     requiredVersion: deps["react-dom"],
                 },
@@ -73,6 +74,9 @@ module.exports = {
         }),
         new HtmlWebpackPlugin({
             template: './public/index.html',
+            inject: 'body',
+            hash: true,
+            minify: true,
         }),
     ],
 };

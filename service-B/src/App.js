@@ -1,13 +1,50 @@
 
-import React from 'react';
-import { PageLayout } from 'fw.core';
-
+//import AppBar from 'navservice';
+import React, { Suspense } from 'react';
+import { Route, BrowserRouter } from 'react-router-dom';
+import { Grid } from "@mui/material"
+const AppBar = React.lazy(() => import("navservice/AppBar"))
+const Router = React.lazy(() => import("navservice/Router"))
+const Routes = React.lazy(() => import("navservice/Routes"))
+const styles = ({
+  frame: {
+    height: "100%",
+    display: "flex",
+    flexDirection: "column", // children will be rendered below each other, DO NOT WRAP!
+  },
+  appbar: {
+    flex: 1, // be flexible, but use 1 / 2001 of space initially (height of AppBar will be set in AppBar)
+  },
+  container: {
+    flex: 2000, // be flexible, but use 2000/2001 (almost all space you can get) for the content-container
+    display: "flex", // the container is a flex-container itself
+  },
+  contentGrid: {
+    display: "flex",
+    flex: "1",
+  },
+});
 function App() {
   return (
-    <PageLayout appBar={<div style={{ backgroundColor: "black", color: "white" }}>AppBar</div>}>
-      <div>Service B</div>
-      <p>Goto Service A <a>/servicea</a></p>
-    </PageLayout>
+    <Suspense fallback={<div> loading...</div>}>
+      <Router>
+        <div style={styles.frame}>
+          <AppBar />
+          {/*<ZebAppBar pmProxy={this.appBarProxy} className={classes.appbar} />*/}
+          <Grid container style={styles.container} direction="column" wrap="nowrap">
+            <Routes>
+              <Route path="/serviceb" element={
+                <>
+                  <div>Service B</div>
+                  <p>Goto Service A <a>/servicea</a></p>
+                </>
+              } />
+            </Routes>
+          </Grid>
+        </div>
+      </Router>
+    </Suspense>
+
   );
 }
 
