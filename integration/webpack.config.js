@@ -7,24 +7,17 @@ module.exports = {
     entry: './src/index',
     mode: 'development',
     devServer: {
-        //static: path.join(__dirname, 'dist'),
         static: {
             directory: path.join(__dirname, 'public'),
-            //publicPath: "/navservice"
         },
-        port: 3005,
+        historyApiFallback: true,
+        port: 80,
         compress: true,
-        hot: true,
-        proxy: {},
-        allowedHosts: [`app.localhost`],
+        hot: true
     },
 
     output: {
         path: path.resolve(__dirname, 'dist'),
-        //publicPath: "/navservice",
-        filename: '[name].[hash:8].js',
-        sourceMapFilename: '[name].[hash:8].map',
-        chunkFilename: '[id].[hash:8].js'
     },
     module: {
         rules: [
@@ -47,15 +40,15 @@ module.exports = {
     plugins: [
         // To learn more about the usage of this plugin, please visit https://webpack.js.org/plugins/module-federation-plugin/
         new ModuleFederationPlugin({
-            name: 'navservice',
+            name: 'integration',
             filename: 'remoteEntry.js',
             exposes: {
-                "./AppBar": "./src/AppBar",
-                "./Routes": "./src/Routes",
-                "./Router": "./src/Router"
+
             },
             remotes: {
-                //integration: "integration@http://localhost:80/remoteEntry.js"
+                //you should always use relative urls (also for publicPath)
+                serviceA: "serviceA@http://localhost:3002/remoteEntry.js",
+                //serviceB: "serviceB@http://localhost:3003/remoteEntry.js" 
             },
             shared: {
                 //this will share all integration dependencies with the remote modules
@@ -74,8 +67,11 @@ module.exports = {
                 },
             }
         }),
-        //new HtmlWebpackPlugin({
-        //    template: './public/index.html',
-        //}),
+        new HtmlWebpackPlugin({
+            template: './public/index.html',
+            inject: 'body',
+            hash: true,
+            minify: true,
+        }),
     ],
 };

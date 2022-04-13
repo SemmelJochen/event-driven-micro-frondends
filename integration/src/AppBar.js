@@ -34,7 +34,6 @@ const AppBar = () => {
         setAnchorElUser(null);
     };
     const getPageUrl = (page) => {
-        console.log("clicking " + page)
         switch (page) {
             case pages[0]:
                 //handleCloseNavMenu();

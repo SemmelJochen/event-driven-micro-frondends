@@ -7,24 +7,16 @@ module.exports = {
     entry: './src/index',
     mode: 'development',
     devServer: {
-        //static: path.join(__dirname, 'dist'),
         static: {
             directory: path.join(__dirname, 'public'),
-            publicPath: "/servicea"
         },
         port: 3002,
         compress: true,
         hot: true,
-        proxy: {},
-        allowedHosts: [`app.localhost`],
     },
 
     output: {
-        path: path.resolve(__dirname, 'dist'),
-        publicPath: "/servicea",
-        filename: '[name].[hash:8].js',
-        sourceMapFilename: '[name].[hash:8].map',
-        chunkFilename: '[id].[hash:8].js'
+        publicPath: "auto"
     },
     module: {
         rules: [
@@ -50,10 +42,9 @@ module.exports = {
             name: 'serviceA',
             filename: 'remoteEntry.js',
             exposes: {
-
+                "./Dashboard": "./src/pages/Dashboard"
             },
             remotes: {
-                navservice: "navservice@/remoteEntry.js"
             },
             shared: {
                 //this will share all integration dependencies with the remote modules
@@ -72,11 +63,11 @@ module.exports = {
                 },
             }
         }),
-        new HtmlWebpackPlugin({
+        /*new HtmlWebpackPlugin({
             template: './public/index.html',
             inject: 'body',
             hash: true,
             minify: true,
-        }),
+        }),*/
     ],
 };
