@@ -1,3 +1,5 @@
+import { Typography } from '@mui/material';
+import { Box } from '@mui/system';
 import React from 'react';
 
 const urlCache = new Set();
@@ -61,7 +63,7 @@ const useDynamicScript = url => {
     }, [url]);
 
     return {
-        errorLoading: { isPresent, message },
+        error: { isPresent, message },
         ready,
     };
 };
@@ -70,7 +72,7 @@ export const useFederatedComponent = (remoteUrl, scope, module) => {
     const key = `${remoteUrl}-${scope}-${module}`;
     const [Component, setComponent] = React.useState(null);
 
-    const { ready, errorLoading } = useDynamicScript(remoteUrl);
+    const { ready, error } = useDynamicScript(remoteUrl);
     React.useEffect(() => {
         if (Component) setComponent(null);
         // Only recalculate when key changes
@@ -84,16 +86,29 @@ export const useFederatedComponent = (remoteUrl, scope, module) => {
         }
         // key includes all dependencies (scope/module)
     }, [Component, ready, key]);
-
-    return { error: { isPresent: errorLoading.isPresent, message: errorLoading.message }, Component };
+    let errorMessage
+    if (error.isPresent) {
+        errorMessage = ` Service on URL ${remoteUrl} could not be reached while trying to load [${scope}/${module.split("./")[1]}]`
+    }
+    return { error: { isPresent: error.isPresent, message: errorMessage ? errorMessage : error.message }, Component };
 };
 
 export const ServiceLoader = ({ ServiceComponent, error: { isPresent, message } }) => {
+    const ErrorWindow = () => {
+        return (
+            <Box display={"flex"} flexDirection={"column"} justifyContent={"center"} alignItems={"center"}
+                width={"100%"} height={"100%"} margin={5}>
+                <Typography variant='h4' textAlign={"center"}>
+                    {message}
+                </Typography>
+            </Box>
+        )
+    }
     return (
 
         <React.Suspense fallback="Loading System">
             {isPresent
-                ? message
+                ? <ErrorWindow />
                 : ServiceComponent && <ServiceComponent />}
         </React.Suspense>
 
